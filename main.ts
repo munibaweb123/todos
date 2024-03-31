@@ -1,13 +1,15 @@
 #! usr/bin/env node
 import inquirer from "inquirer"
 let todos:string[]=[];
-let condition=true;
+
 let mainMenu=async()=>{
+   
+let condition=true;
 let count=await inquirer.prompt({
     name:"select",
     type:"list",
     message:"select any one from the given list!",
-    choices:["Add","delete","exit"]
+    choices:["Add","delete","view list","exit"]
 
 })
 
@@ -38,20 +40,28 @@ if(todo.addMore===false){
     }
 
 else if(count.select==="delete"){
- for(let i=0;i<=todos.length;i++){
+ for(let i=0;i<todos.length;i++){
     let del=await inquirer.prompt({
         name: "index",
         type:"number",
         message:"type index to delete from your added todos"
     })
     todos.splice(del.index,1);
-    console.log(todos);
+    console.log(`Your selected index of todos is successfully removed. \n `);
+    console.log(todos)
     
 
  }
  mainMenu();
    
     
+    }
+    else if(count.select==="view list"){
+        console.log("your todo list is:\n")
+        for(let i=0;i<todos.length;i++){
+            console.log(`${i}- ${todos[i]}`)
+        }
+        mainMenu();
     }
     else if(count.select==="exit"){
         console.log("Thankyou for choosing our todo app!")
