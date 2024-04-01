@@ -5,6 +5,7 @@ let todos:string[]=[];
 let mainMenu=async()=>{
    
 let condition=true;
+console.log(`\b Welcome to my todos app! \n`)
 let count=await inquirer.prompt({
     name:"select",
     type:"list",
@@ -40,21 +41,33 @@ if(todo.addMore===false){
     }
 
 else if(count.select==="delete"){
- for(let i=0;i<todos.length;i++){
-    let del=await inquirer.prompt({
+ while(condition){
+    let del=await inquirer.prompt([{
         name: "index",
         type:"number",
         message:"type index to delete from your added todos"
-    })
+    },
+{
+    name:"ask",
+    type: "confirm",
+    message: "do you want to delete more index?",
+    default:"false"
+}])
+if(del.index<todos.length){
     todos.splice(del.index,1);
     console.log(`Your selected index of todos is successfully removed. \n `);
-    console.log(todos)
-    
+    console.log(todos);
+    condition=del.ask;
+    if(del.ask===false){
+        mainMenu();
 
- }
- mainMenu();
-   
+    }
+}
+else{
+    console.log(`type right index of array to remove todos`);
+}
     
+}      
     }
     else if(count.select==="view list"){
         console.log("your todo list is:\n")
