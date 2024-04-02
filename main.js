@@ -1,4 +1,4 @@
-#! usr/bin/env node
+#! /usr/bin/env node
 import inquirer from "inquirer";
 let todos = [];
 let mainMenu = async () => {
@@ -8,7 +8,7 @@ let mainMenu = async () => {
         name: "select",
         type: "list",
         message: "select any one from the given list!",
-        choices: ["Add", "delete", "view list", "exit"]
+        choices: ["Add", "delete", "edit", "view list", "exit"]
     });
     if (count.select === "Add") {
         while (condition) {
@@ -55,6 +55,33 @@ let mainMenu = async () => {
             }
             else {
                 console.log(`type right index of array to remove todos`);
+            }
+        }
+    }
+    else if (count.select === "edit") {
+        while (condition) {
+            let todo = await inquirer.prompt([{
+                    name: "edittask",
+                    type: "input",
+                    message: "what you want to edit/change in your todo list?"
+                },
+                {
+                    name: "index",
+                    type: "number",
+                    message: "please give index of todos array to edit"
+                },
+                {
+                    name: "editMore",
+                    type: "confirm",
+                    message: "Do you want to edit more?",
+                    default: "false"
+                }]);
+            todos.splice(todo.index, 1, todo.edittask);
+            console.log("Your updated todo list is:\n");
+            console.log(todos);
+            condition = todo.editMore;
+            if (todo.editMore == false) {
+                mainMenu();
             }
         }
     }
